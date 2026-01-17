@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>İkon Oluşturucu</title>
+</head>
+<body>
+    <canvas id="canvas" width="256" height="256" style="border: 1px solid #ccc;"></canvas>
+    <br><br>
+    <button onclick="downloadIcon()">İkonu İndir (.png)</button>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Discord temalı ikon çiz
+        function drawIcon() {
+            // Arka plan gradient
+            const gradient = ctx.createLinearGradient(0, 0, 256, 256);
+            gradient.addColorStop(0, '#5865f2');
+            gradient.addColorStop(1, '#7289da');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 256, 256);
+            
+            // Yuvarlak köşeler
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, 256, 256, 32);
+            ctx.fill();
+            
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Müzik notu çiz
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 120px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🎵', 128, 128);
+            
+            // Alt kısımda küçük Discord logosu
+            ctx.font = 'bold 40px Arial';
+            ctx.fillText('D', 128, 200);
+        }
+        
+        function downloadIcon() {
+            const link = document.createElement('a');
+            link.download = 'app-icon-256x256.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // İkonu çiz
+        drawIcon();
+    </script>
+</body>
+</html>

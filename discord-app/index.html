@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Music Discord</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Whitney:wght@400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Whitney', 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: #36393f;
+      color: #dcddde;
+      padding: 0;
+      user-select: none;
+      overflow: hidden;
+      font-size: 14px;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #5865f2 0%, #7289da 100%);
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .header .subtitle {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    .content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      background: #36393f;
+    }
+
+    .status-section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #8e9297;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .status-card {
+      background: #2f3136;
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid #202225;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .status-card:hover {
+      border-color: #5865f2;
+      box-shadow: 0 2px 10px rgba(88, 101, 242, 0.1);
+    }
+
+    .status-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .status-dot::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .status-dot.connected {
+      background: #3ba55d;
+    }
+
+    .status-dot.connected::after {
+      background: #3ba55d;
+    }
+
+    .status-dot.disconnected {
+      background: #ed4245;
+    }
+
+    .status-dot.disconnected::after {
+      background: #ed4245;
+    }
+
+    .status-dot.connecting {
+      background: #faa61a;
+    }
+
+    .status-dot.connecting::after {
+      background: #faa61a;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.3);
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .status-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .user-info {
+      font-size: 14px;
+      color: #b9bbbe;
+      margin-left: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #5865f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .song-section {
+      margin-bottom: 24px;
+    }
+
+    .song-card {
+      background: linear-gradient(135deg, #2f3136 0%, #36393f 100%);
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #202225;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .song-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #5865f2, #7289da, #5865f2);
+      background-size: 200% 100%;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+
+      0%,
+      100% {
+        background-position: 200% 0;
+      }
+
+      50% {
+        background-position: -200% 0;
+      }
+    }
+
+    .song-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .song-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #5865f2, #7289da);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(88, 101, 242, 0.3);
+    }
+
+    .song-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .song-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .song-artist {
+      font-size: 14px;
+      color: #b9bbbe;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .song-status {
+      font-size: 12px;
+      color: #8e9297;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .playing-indicator {
+      width: 12px;
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .playing-bars {
+      display: flex;
+      gap: 1px;
+      align-items: end;
+      height: 8px;
+    }
+
+    .bar {
+      width: 2px;
+      background: #3ba55d;
+      border-radius: 1px;
+      animation: bounce 1.2s ease-in-out infinite;
+    }
+
+    .bar:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .bar:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        height: 2px;
+      }
+
+      50% {
+        height: 8px;
+      }
+    }
+
+    .no-song {
+      text-align: center;
+      color: #72767d;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .no-song-icon {
+      font-size: 32px;
+      opacity: 0.5;
+    }
+
+    .buttons-section {
+      margin-bottom: 24px;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .button {
+      background: #5865f2;
+      border: none;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 2px 6px rgba(88, 101, 242, 0.2);
+    }
+
+    .button:hover {
+      background: #4752c4;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
+    }
+
+    .button:active {
+      background: #3c45a5;
+      transform: translateY(0);
+    }
+
+    .button.secondary {
+      background: #4f545c;
+      box-shadow: 0 2px 6px rgba(79, 84, 92, 0.2);
+    }
+
+    .button.secondary:hover {
+      background: #5d6269;
+      box-shadow: 0 4px 12px rgba(79, 84, 92, 0.3);
+    }
+
+    .button.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .info-box {
+      background: #2f3136;
+      border-radius: 8px;
+      padding: 16px;
+      border-left: 4px solid #5865f2;
+      margin-top: 16px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-title {
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-content {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #b9bbbe;
+    }
+
+    .info-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .step-number {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #5865f2;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .footer {
+      background: #202225;
+      padding: 16px 24px;
+      text-align: center;
+      font-size: 11px;
+      color: #72767d;
+      border-top: 1px solid #1e2124;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .server-info {
+      font-size: 10px;
+      color: #8e9297;
+      background: #36393f;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #2f3136;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #202225;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #1a1c1f;
+    }
+
+    /* Animasyonlar */
+    .fade-in {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-in {
+      animation: slideIn 0.4s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎵 YouTube Music Discord RPC</h1>
+      <div class="subtitle">Discord Rich Presence Bridge</div>
+    </div>
+
+    <div class="content">
+      <div class="status-section">
+        <div class="section-title">Discord Durumu</div>
+        <div class="status-card fade-in">
+          <div class="status-header">
+            <div class="status-dot connecting" id="statusDot"></div>
+            <div class="status-text" id="statusText">Bağlanıyor...</div>
+          </div>
+          <div class="user-info" id="userInfo">
+            <div class="user-avatar" id="userAvatar">?</div>
+            <span>Discord'a bağlanılıyor...</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="song-section">
+        <div class="section-title">Şu An Çalıyor</div>
+        <div class="song-card fade-in" id="songCard">
+          <div class="no-song">
+            <div class="no-song-icon">🎵</div>
+            <div>YouTube Music'te bir şarkı çalın</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons-section">
+        <div class="section-title">Kontroller</div>
+        <div class="button-group">
+          <button class="button" id="reconnectBtn" onclick="reconnect()">
+            🔄 Yeniden Bağlan
+          </button>
+          <button class="button secondary" onclick="openYouTubeMusic()">
+            🌐 YouTube Music
+          </button>
+          <div style="grid-column: 1 / -1; margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+            <label style="font-size: 11px; color: #8e9297; font-weight: 700;">DİSCORD CLİENT ID (Gerekirse
+              Değiştirin)</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="clientIdInput"
+                style="flex: 1; background: #202225; border: 1px solid #2f3136; color: #fff; padding: 8px; border-radius: 4px; font-family: monospace; font-size: 12px;"
+                placeholder="ClientID Giriniz...">
+              <button class="button" style="padding: 4px 12px; font-size: 12px;"
+                onclick="saveClientId()">Kaydet</button>
+            </div>
+          </div>
+          <button class="button secondary full-width" onclick="openDiscordSettings()" style="margin-top: 10px;">
+            ⚙️ Discord Application Portal
+          </button>
+        </div>
+      </div>
+
+      <script>
+        // Client ID kaydetme
+        function saveClientId() {
+          const newId = document.getElementById('clientIdInput').value.trim();
+          if (newId) {
+            ipcRenderer.send('update-client-id', newId);
+            alert('Client ID güncellendi ve yeniden bağlanılıyor...');
+            reconnect();
+          }
+        }
+
+        ipcRenderer.on('current-client-id', (event, id) => {
+          document.getElementById('clientIdInput').value = id;
+        });
+      </script>
+
+      <div class="info-box slide-in">
+        <div class="info-title">
+          💡 Nasıl Kullanılır?
+        </div>
+        <div class="info-content">
+          <div class="info-step">
+            <div class="step-number">1</div>
+            <span>Discord masaüstü uygulamasını açın</span>
+          </div>
+          <div class="info-step">
+            <div class="step-number">2</div>
+            <span>YouTube Music'te şarkı çalın</span>
+          </div>
+          <div class="info-step">
+            <div class="step-number">3</div>
+            <span>Durumunuz otomatik güncellenecek</span>
+          </div>
+          <br>
+          <strong>💡 İpucu:</strong> Bu pencereyi kapatabilirsiniz, sistem tepsisinde çalışmaya devam eder.
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-left">
+        <span>YouTube Music Discord RPC v1.0.0</span>
+      </div>
+      <div class="footer-right">
+        <div class="server-info" id="serverInfo">Port: -</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    // Durum güncelle
+    ipcRenderer.on('discord-status', (event, data) => {
+      const statusDot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+      const userInfo = document.getElementById('userInfo');
+      const userAvatar = document.getElementById('userAvatar');
+
+      if (data.connected) {
+        statusDot.className = 'status-dot connected';
+        statusText.textContent = 'Discord\'a Bağlı';
+        userAvatar.textContent = data.user ? data.user.charAt(0).toUpperCase() : 'D';
+        userInfo.innerHTML = `
+          <div class="user-avatar">${data.user ? data.user.charAt(0).toUpperCase() : 'D'}</div>
+          <div style="display: flex; flex-direction: column;">
+            <span>Kullanıcı: ${data.user}</span>
+            <span style="font-size: 10px; color: #3ba55d;">Bağlantı aktif ve çalışıyor</span>
+          </div>
+        `;
+      } else if (data.connecting) {
+        statusDot.className = 'status-dot connecting';
+        statusText.textContent = 'Bağlanıyor...';
+        userAvatar.textContent = '⏳';
+        userInfo.innerHTML = `
+          <div class="user-avatar">⏳</div>
+          <span>Discord'a bağlanılıyor...</span>
+        `;
+      } else {
+        statusDot.className = 'status-dot disconnected';
+        statusText.textContent = 'Bağlantı Hatası';
+        userAvatar.textContent = '❌';
+
+        let errorHint = 'Discord masaüstü uygulamasının açık olduğundan emin olun.';
+        if (data.error && data.error.includes('Could not connect')) {
+          errorHint = 'Discord uygulaması bulunamadı. Lütfen Discord\'u başlatın.';
+        } else if (data.error && data.error.includes('connection closed')) {
+          errorHint = 'Bağlantı Discord tarafından reddedildi veya Client ID hatalı.';
+        }
+
+        userInfo.innerHTML = `
+          <div class="user-avatar" style="background: #ed4245;">❌</div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="color: #ed4245; font-weight: 600;">Hata: ${data.error || 'Bilinmeyen Hata'}</span>
+            <span style="font-size: 11px; color: #8e9297;">${errorHint}</span>
+          </div>
+        `;
+      }
+    });
+
+    // Şarkı güncelle
+    ipcRenderer.on('song-update', (event, song) => {
+      const songCard = document.getElementById('songCard');
+
+      if (song && song.title) {
+        const isPlaying = song.isPlaying;
+        songCard.innerHTML = `
+          <div class="song-info">
+            <div class="song-icon">🎵</div>
+            <div class="song-details">
+              <div class="song-title">${song.title}</div>
+              <div class="song-artist">by ${song.artist}</div>
+              <div class="song-status">
+                <div class="playing-indicator">
+                  ${isPlaying ? `
+                    <div class="playing-bars">
+                      <div class="bar"></div>
+                      <div class="bar"></div>
+                      <div class="bar"></div>
+                    </div>
+                  ` : '⏸️'}
+                </div>
+                <span>${isPlaying ? 'Oynatılıyor' : 'Duraklatıldı'}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        songCard.innerHTML = `
+          <div class="no-song">
+            <div class="no-song-icon">🎵</div>
+            <div>YouTube Music'te bir şarkı çalın</div>
+          </div>
+        `;
+      }
+    });
+
+    // Server status güncelle
+    ipcRenderer.on('server-status', (event, data) => {
+      const serverInfo = document.getElementById('serverInfo');
+      if (data.running) {
+        serverInfo.textContent = `Port: ${data.port}`;
+      } else {
+        serverInfo.textContent = 'Port: -';
+      }
+    });
+
+    // Buton fonksiyonları
+    function reconnect() {
+      ipcRenderer.send('reconnect-discord');
+      document.getElementById('statusText').textContent = 'Bağlanıyor...';
+      document.getElementById('statusDot').className = 'status-dot connecting';
+    }
+
+    function openYouTubeMusic() {
+      require('electron').shell.openExternal('https://music.youtube.com');
+    }
+
+    function openDiscordSettings() {
+      require('electron').shell.openExternal('https://discord.com/developers/applications');
+    }
+
+    // Sayfa yüklendiğinde durum al
+    ipcRenderer.send('get-status');
+
+    // Animasyonları başlat
+    setTimeout(() => {
+      document.querySelectorAll('.fade-in, .slide-in').forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.1}s`;
+      });
+    }, 100);
+  </script>
+</body>
+
+</html>

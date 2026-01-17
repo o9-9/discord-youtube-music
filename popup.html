@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Music Discord RPC</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 15px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      margin: 0;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    
+    h1 {
+      font-size: 18px;
+      margin: 0 0 5px 0;
+    }
+    
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-size: 13px;
+    }
+    
+    .status.connected {
+      background: #43b581;
+    }
+    
+    .status.disconnected {
+      background: #f04747;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+    
+    .song-info {
+      background: #2a2a2a;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .song-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    .song-artist {
+      color: #b9bbbe;
+      font-size: 12px;
+    }
+    
+    .no-song {
+      text-align: center;
+      color: #72767d;
+      padding: 20px;
+      font-size: 13px;
+    }
+    
+    .info {
+      background: #2a2a2a;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 11px;
+      color: #b9bbbe;
+      line-height: 1.5;
+    }
+    
+    .info-title {
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🎵 YouTube Music RPC</h1>
+  </div>
+  
+  <div id="status" class="status disconnected">
+    <span class="status-dot"></span>
+    <span>Discord'a Bağlanıyor...</span>
+  </div>
+  
+  <div id="songContainer">
+    <div class="no-song">
+      YouTube Music'te bir şarkı çalın
+    </div>
+  </div>
+  
+  <div class="info">
+    <div class="info-title">ℹ️ Nasıl Kullanılır?</div>
+    1. Discord'u açın<br>
+    2. YouTube Music'te şarkı çalın<br>
+    3. Durumunuz otomatik güncellenecek
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
