@@ -1,52 +1,52 @@
 # 🎵 YouTube Music Discord Rich Presence
 
-YouTube Music'te dinlediğiniz şarkıları anlık olarak Discord profilinizde gösteren bir tarayıcı uzantısı ve masaüstü köprü uygulamasıdır.
+This is a browser extension and desktop bridge application that displays the songs you're listening to on YouTube Music in real-time on your Discord profile.
 
 ![Discord Presence](https://img.shields.io/badge/Discord-Rich%20Presence-5865F2?style=for-the-badge&logo=discord&logoColor=white)
 ![YouTube Music](https://img.shields.io/badge/YouTube%20Music-Streaming-FF0000?style=for-the-badge&logo=youtube-music&logoColor=white)
 
-## ✨ Özellikler
+## ✨ Features
 
-- 🎶 **Anlık Senkronizasyon:** Şarkı değiştiğinde Discord durumunuz saniyeler içinde güncellenir.
-- 🖼️ **Albüm Kapakları:** Dinlediğiniz şarkının albüm kapağı Discord'da gösterilir.
-- ⏯️ **Durum Belirteçleri:** Şarkının oynatılıyor veya duraklatılmış olduğunu gösteren simgeler.
-- 🕒 **Zaman Sayacı:** Şarkının ne kadar süredir çaldığını gösteren canlı sayaç.
-- 🎨 **Modern Arayüz:** Kullanımı kolay ve şık bir kontrol paneli.
-- 🚀 **Düşük Kaynak Kullanımı:** Arka planda sessizce ve hafif bir şekilde çalışır.
+- 🎶 **Instant Synchronization:** Your Discord status updates within seconds when the song changes.
+- 🖼️ **Album Covers:** The album cover of the song you're listening to is displayed on Discord.
+- ⏯️ **Status Indicators:** Icons showing whether the song is playing or paused.
+- 🕒 **Timer:** Live timer showing how long the song has been playing.
+- 🎨 **Modern Interface:** An easy-to-use and stylish control panel.
+- 🚀 **Low Resource Usage:** Runs silently and lightly in the background.
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-### 1. Masaüstü Uygulaması (Bridge)
-Bu uygulama, tarayıcıdan gelen bilgileri Discord'a iletir.
+### 1. Desktop Application (Bridge)
+This application transmits information from the browser to Discord.
 
-1. `discord-app` klasörüne gidin.
-2. `HIZLI-KURULUM.bat` dosyasını çalıştırın.
-3. Gerekli bağımlılıklar otomatik olarak yüklenecek ve uygulama başlatılacaktır.
+1. Go to the `discord-app` folder.
+2. Run the `QUICK-SETUP.bat` file.
+3. The necessary dependencies will be automatically installed and the application will launch.
 
-### 2. Chrome Uzantısı
-Bu uzantı, YouTube Music web sayfasından şarkı bilgilerini çeker.
+### 2. Chrome Extension
+This extension extracts song information from the YouTube Music webpage.
 
-1. Tarayıcınızda (Chrome, Edge, Brave vb.) `chrome://extensions/` adresine gidin.
-2. Sağ üst köşedeki **Geliştirici Modu**'nu aktif edin.
-3. **Paketlenmemiş öğe yükle** butonuna tıklayın.
-4. Bu projenin **ana klasörünü** seçin.
+1. Go to `chrome://extensions/` in your browser (Chrome, Edge, Brave, etc.).
+2. Activate **Developer Mode** in the upper right corner.
+3. Click the **Install unpacked item** button.
+4. Select the **main folder** of this project.
 
-## 🛠️ Kullanım
+## 🛠️ Usage
 
-1. Önce masaüstü uygulamasını (`discord-app/HIZLI-KURULUM.bat` veya ana klasördeki `BASLAT.bat`) başlatın.
-2. YouTube Music'i açın ve bir şarkı başlatın.
-3. Discord profilinizde şarkı bilgilerinin göründüğünü kontrol edin!
+1. First, launch the desktop application (`discord-app/QUICK-SETUP.bat` or `START.bat` in the main folder).
+2. Open YouTube Music and start a song.
+3. Check that the song information appears on your Discord profile!
 
-## 🔧 Yapılandırma
+## 🔧 Configuration
 
-Kendi Discord uygulamanızı kullanmak isterseniz:
-1. [Discord Developer Portal](https://discord.com/developers/applications) üzerinden yeni bir uygulama oluşturun.
-2. `discord-app/main.js` dosyasındaki `CLIENT_ID` değişkenine kendi `Application ID`nizi yapıştırın.
+If you want to use your own Discord application:
+1. Create a new application via the [Discord Developer Portal](https://discord.com/developers/applications).
+2. Paste your own `Application ID` into the `CLIENT_ID` variable in the `discord-app/main.js` file.
 
-## 🤝 Katkıda Bulunma
-
+## 🤝 Contributing
 Hata bildirimleri ve özellik önerileri için Issue açabilir veya Pull Request gönderebilirsiniz.
 
 ## ⚖️ Lisans
+
 
 Bu proje Apache 2.0 lisansı ile lisanslanmıştır.
